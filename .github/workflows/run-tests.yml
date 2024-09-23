@@ -1,0 +1,52 @@
+name: Run tests
+
+on: pull_request
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(vars.ALGORITHM_TEST_TIMEOUT) }}
+    outputs:
+      slackMessage: ${{ steps.parse_tests.outputs.slackMessage }}
+      githubComment: ${{ steps.parse_tests.outputs.githubComment }}
+    steps:
+      - name: Checkout under $GITHUB_WORKSPACE
+        uses: actions/checkout@v4
+
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.16.0
+
+      - name: Install all dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run cypress:test
+
+      - name: Parse tests
+        run: npm run report:test:parse
+        id: parse_tests
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_PR_URL: ${{ github.event.pull_request.html_url }}
+
+  send-report-to-slack:
+    runs-on: ubuntu-latest
+    needs: run-tests
+    steps:
+      - uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: ${{ needs.run-tests.outputs.slackMessage }}
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+  send-report-to-github:
+    runs-on: ubuntu-latest
+    needs: run-tests
+    steps:
+      - uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: ${{ needs.run-tests.outputs.githubComment }}
