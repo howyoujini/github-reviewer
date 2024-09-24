@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Popular from "../Popular";
 import Battle from "../Battle";
 import NavButton from "../NavButton";
