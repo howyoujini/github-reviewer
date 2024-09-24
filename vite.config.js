@@ -10,4 +10,7 @@ export default defineConfig({
     setupFiles: "./src/setupTests.js",
     testMatch: ["./src/spec/*.spec.jsx"],
   },
+  define: {
+    "process.env": {},
+  },
 });

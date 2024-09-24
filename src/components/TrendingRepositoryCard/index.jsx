@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import "./styles.css";
 
 export default function TrendingRepositoryCard({
   name,
@@ -6,16 +7,17 @@ export default function TrendingRepositoryCard({
   gitUrl,
   followersCount,
   forksCount,
+  language,
 }) {
   return (
-    <div>
-      <h2>{name}</h2>
-      <span>owner{owner}</span>
+    <div className="trending-card">
       <a href={gitUrl} target="_blank" rel="noreferrer">
-        {gitUrl}
+        <h2>{name}</h2>
       </a>
-      <p>{followersCount}</p>
-      <p>{forksCount}</p>
+      <span>{owner}</span>
+      <span>{followersCount}</span>
+      <span>{forksCount}</span>
+      <span>{language}</span>
     </div>
   );
 }
@@ -26,4 +28,5 @@ TrendingRepositoryCard.propTypes = {
   gitUrl: PropTypes.string.isRequired,
   followersCount: PropTypes.number.isRequired,
   forksCount: PropTypes.number.isRequired,
+  language: PropTypes.string.isRequired,
 };

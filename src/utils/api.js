@@ -1,10 +1,9 @@
 import PROFILE from "./profile.json";
 import PERSONAL_REPOS from "./personalRepositories.json";
 import POPULAR_REPOS from "./popularRepositories.json";
-import dotenv from "dotenv";
-dotenv.config();
+import { GITHUB } from "../../env";
 
-const defaultParams = `?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_SECRET_ID}`;
+const defaultParams = `?client_id=${GITHUB._CLIENT_ID}&client_secret=${GITHUB._SECRET_ID}`;
 
 function getErrorMsg(message, username) {
   if (message === "Not Found") {
@@ -94,7 +93,8 @@ export async function getPopularRepos(language) {
   const { items } = await res.json();
 
   return items.map((item) => {
-    const { full_name, clone_url, watchers_count, forks_count } = item;
+    const { full_name, clone_url, watchers_count, forks_count, language } =
+      item;
     const { login } = item.owner;
 
     return {
@@ -103,6 +103,7 @@ export async function getPopularRepos(language) {
       gitUrl: clone_url,
       followersCount: watchers_count,
       forksCount: forks_count,
+      language: language,
     };
   });
 }
