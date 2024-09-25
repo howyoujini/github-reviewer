@@ -4,6 +4,8 @@ import { battle } from "../../utils/api";
 import MatchResultCard from "../MatchResultCard";
 import Loading from "../Loading";
 
+import useBattleState from "../../hooks/useBattleState";
+
 export default function Battle() {
   const [user1Name, setUser1Name] = useState("");
   const [user2Name, setUser2Name] = useState("");
@@ -13,13 +15,19 @@ export default function Battle() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [previous, setUpdate] = useBattleState();
+
   const onMatch = async () => {
     if (user1Name === "" || user2Name === "") {
       setMessage("사용자 이름을 모두 입력해주세요.");
     } else {
       setMessage("");
       setIsLoading(true);
+
       const [winner, loser] = await battle([user1Name, user2Name]);
+
+      setUpdate({ winner: winner, loser: loser });
+
       setWinner(winner);
       setLoser(loser);
       setIsLoading(false);
@@ -56,7 +64,18 @@ export default function Battle() {
               />
             </>
           ) : (
-            <div>결과없음</div>
+            <>
+              <MatchResultCard
+                score={previous.winner.score}
+                isWinner={true}
+                user={previous.winner.profile}
+              />
+              <MatchResultCard
+                score={previous.loser.score}
+                isWinner={false}
+                user={previous.loser.profile}
+              />
+            </>
           )}
         </>
       )}
