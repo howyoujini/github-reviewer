@@ -35,8 +35,7 @@ function getProfile(username) {
     if (profile.message) {
       throw new Error(getErrorMsg(profile.message, username));
     }
-
-    return profile;
+    return JSON.parse(profile);
   });
 }
 
@@ -48,7 +47,7 @@ function getRepos(username) {
       throw new Error(getErrorMsg(repos.message, username));
     }
 
-    return repos;
+    return JSON.parse(repos);
   });
 }
 

@@ -7,7 +7,7 @@ export default function TrendingRepositoryCard({
   gitUrl,
   followersCount,
   forksCount,
-  language,
+  language = "",
 }) {
   return (
     <div className="trending-card">
@@ -28,5 +28,5 @@ TrendingRepositoryCard.propTypes = {
   gitUrl: PropTypes.string.isRequired,
   followersCount: PropTypes.number.isRequired,
   forksCount: PropTypes.number.isRequired,
-  language: PropTypes.string.isRequired,
+  language: PropTypes.string,
 };
