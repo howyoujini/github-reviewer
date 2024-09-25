@@ -4,7 +4,7 @@ import "./styles.css";
 export default function MatchResultCard({ score, isWinner, user }) {
   const avatar = user.avatar_url ?? "";
   const githubUserName = user.login;
-  const name = user.name;
+  const name = user.name ?? "";
   const location = user.location ?? "";
   const followersCount = user.followers;
   const followingCount = user.following;
