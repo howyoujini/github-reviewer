@@ -13,42 +13,40 @@ function getErrorMsg(message, username) {
   return message;
 }
 
-function request(uri) {
-  return new Promise(function (resolve, reject) {
-    const xhr = new XMLHttpRequest();
+const makeEndPoint = (url) => window.encodeURI(url);
 
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        resolve(xhr.responseText);
-      }
-    };
+async function getProfile(username) {
+  const url = `https://api.github.com/users/${username}${defaultParams}`;
+  const response = await fetch(makeEndPoint(url));
 
-    xhr.open("GET", uri, true);
-    xhr.send(null);
-  });
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  const profile = await response.json();
+
+  if (profile.message) {
+    throw new Error(getErrorMsg(profile.message, username));
+  }
+
+  return profile;
 }
 
-function getProfile(username) {
-  return request(
-    `https://api.github.com/users/${username}${defaultParams}`
-  ).then((profile) => {
-    if (profile.message) {
-      throw new Error(getErrorMsg(profile.message, username));
-    }
-    return JSON.parse(profile);
-  });
-}
+async function getRepos(username) {
+  const url = `https://api.github.com/users/${username}/repos${defaultParams}&per_page=100`;
+  const response = await fetch(makeEndPoint(url));
 
-function getRepos(username) {
-  return request(
-    `https://api.github.com/users/${username}/repos${defaultParams}&per_page=100`
-  ).then((repos) => {
-    if (repos.message) {
-      throw new Error(getErrorMsg(repos.message, username));
-    }
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
 
-    return JSON.parse(repos);
-  });
+  const repos = await response.json();
+
+  if (repos.message) {
+    throw new Error(getErrorMsg(repos.message, username));
+  }
+
+  return repos;
 }
 
 function getStarCount(repos) {
@@ -84,17 +82,18 @@ export async function battle([player1, player2]) {
 }
 
 export async function getPopularRepos(language) {
-  const endpoint = window.encodeURI(
-    `https://api.github.com/search/repositories${defaultParams}&q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
-  );
-
-  const res = await fetch(endpoint);
+  const url = `https://api.github.com/search/repositories${defaultParams}&q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`;
+  const res = await fetch(makeEndPoint(url));
 
   if (!res.ok) {
     throw new Error("네트워크 응답이 OK가 아님");
   }
 
   const { items } = await res.json();
+
+  if (items === undefined) {
+    throw new Error("JSON 파싱 오류");
+  }
 
   return items.map((item) => {
     const {
