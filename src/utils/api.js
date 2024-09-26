@@ -89,6 +89,11 @@ export async function getPopularRepos(language) {
   );
 
   const res = await fetch(endpoint);
+
+  if (!res.ok) {
+    throw new Error("네트워크 응답이 OK가 아님");
+  }
+
   const { items } = await res.json();
 
   return items.map((item) => {

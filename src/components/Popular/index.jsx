@@ -4,21 +4,27 @@ import { getPopularRepos } from "../../utils/api";
 import SelectLangButton from "../SelectLangButton";
 import TrendingRepositoryCard from "../TrendingRepositoryCard";
 import Loading from "../Loading";
+import ErrorMessage from "../ErrorMessage";
 
 export default function Popular() {
   const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[0]);
   const [popularRepositories, setPopularRepositories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     async function fetchRepositories() {
-      setIsLoading(true);
-      const items = await getPopularRepos(selectedLanguage.en);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const items = await getPopularRepos(selectedLanguage.en);
 
-      setPopularRepositories(items);
+        setIsLoading(false);
+        setPopularRepositories(items);
+        setIsError(false);
+      } catch (error) {
+        setIsError(true);
+      }
     }
-
     fetchRepositories();
   }, [selectedLanguage]);
 
@@ -40,7 +46,9 @@ export default function Popular() {
           })}
         </ul>
       </header>
-      {isLoading ? (
+      {isError ? (
+        <ErrorMessage message="오류 발생" testId="error-message-popular" />
+      ) : isLoading ? (
         <Loading />
       ) : (
         <div>
