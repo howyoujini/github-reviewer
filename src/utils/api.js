@@ -92,8 +92,15 @@ export async function getPopularRepos(language) {
   const { items } = await res.json();
 
   return items.map((item) => {
-    const { full_name, clone_url, watchers_count, forks_count, language } =
-      item;
+    const {
+      full_name,
+      clone_url,
+      watchers_count,
+      forks,
+      language,
+      stargazers_count,
+      open_issues,
+    } = item;
     const { login } = item.owner;
 
     return {
@@ -101,8 +108,10 @@ export async function getPopularRepos(language) {
       owner: login,
       gitUrl: clone_url,
       followersCount: watchers_count,
-      forksCount: forks_count,
+      forksCount: forks,
       language: language,
+      starCount: stargazers_count,
+      openIssues: open_issues,
     };
   });
 }

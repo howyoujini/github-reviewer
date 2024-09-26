@@ -65,16 +65,22 @@ export default function Battle() {
             </>
           ) : (
             <>
-              <MatchResultCard
-                score={previous.winner.score}
-                isWinner={true}
-                user={previous.winner.profile}
-              />
-              <MatchResultCard
-                score={previous.loser.score}
-                isWinner={false}
-                user={previous.loser.profile}
-              />
+              {previous.winner === undefined ? (
+                <p>결과 없음</p>
+              ) : (
+                <>
+                  <MatchResultCard
+                    score={previous.winner.score}
+                    isWinner={true}
+                    user={previous.winner.profile}
+                  />
+                  <MatchResultCard
+                    score={previous.loser.score}
+                    isWinner={false}
+                    user={previous.loser.profile}
+                  />
+                </>
+              )}
             </>
           )}
         </>

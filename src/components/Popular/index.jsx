@@ -26,7 +26,7 @@ export default function Popular() {
     <>
       <h1 className="center-text">This is Popular!</h1>
       <header>
-        <ul>
+        <ul data-test="nav-languages">
           {LANGUAGES.map((language) => {
             return (
               <SelectLangButton
@@ -34,6 +34,7 @@ export default function Popular() {
                 name={language.ko}
                 selected={language === selectedLanguage}
                 onSelectLanguage={() => setSelectedLanguage(language)}
+                testId={`btn-language-${language.en}`}
               />
             );
           })}
@@ -43,9 +44,13 @@ export default function Popular() {
         <Loading />
       ) : (
         <div>
-          {popularRepositories.map((repository) => {
+          {popularRepositories.map((repository, index) => {
             return (
-              <TrendingRepositoryCard key={repository.gitUrl} {...repository} />
+              <TrendingRepositoryCard
+                key={repository.gitUrl}
+                index={index}
+                {...repository}
+              />
             );
           })}
         </div>
