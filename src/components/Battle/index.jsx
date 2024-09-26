@@ -1,10 +1,11 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { battle } from "../../utils/api";
 import MatchResultCard from "../MatchResultCard";
 import Loading from "../Loading";
-
+import UserNameInput from "../UserNameInput";
 import useBattleState from "../../hooks/useBattleState";
+import ErrorMessage from "../ErrorMessage";
+import "./styles.css";
 
 export default function Battle() {
   const [user1Name, setUser1Name] = useState("");
@@ -19,7 +20,7 @@ export default function Battle() {
 
   const onMatch = async () => {
     if (user1Name === "" || user2Name === "") {
-      setMessage("사용자 이름을 모두 입력해주세요.");
+      setMessage("Please write all github IDs.");
     } else {
       setMessage("");
       setIsLoading(true);
@@ -37,69 +38,64 @@ export default function Battle() {
 
   return (
     <>
-      <div data-test="ui-battle">
-        <h1 className="center-text">This is Battle!</h1>
+      <div className="ui-battle" data-test="ui-battle">
+        {isLoading ? (
+          <></>
+        ) : (
+          <>
+            <UserNameInput id={1} onChange={setUser1Name} />
+            <UserNameInput id={2} onChange={setUser2Name} />
+            <button className="match-button" type="submit" onClick={onMatch}>
+              {"Let's Match"}
+            </button>
+          </>
+        )}
+        {message.length === 0 ? (
+          <></>
+        ) : (
+          <ErrorMessage message={message}></ErrorMessage>
+        )}
+
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {isLoaded ? (
+              <div className="cards">
+                <MatchResultCard
+                  score={winner.score}
+                  isWinner={true}
+                  user={winner.profile}
+                />
+                <MatchResultCard
+                  score={loser.score}
+                  isWinner={false}
+                  user={loser.profile}
+                />
+              </div>
+            ) : (
+              <div className="cards">
+                {previous.winner === undefined ? (
+                  <></>
+                ) : (
+                  <>
+                    <MatchResultCard
+                      score={previous.winner.score}
+                      isWinner={true}
+                      user={previous.winner.profile}
+                    />
+                    <MatchResultCard
+                      score={previous.loser.score}
+                      isWinner={false}
+                      user={previous.loser.profile}
+                    />
+                  </>
+                )}
+              </div>
+            )}
+          </>
+        )}
       </div>
-      <UserNameInput id={1} onChange={setUser1Name} />
-      <UserNameInput id={2} onChange={setUser2Name} />
-      <button type="submit" onClick={onMatch}>
-        대결
-      </button>
-      <p>{message}</p>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          {isLoaded ? (
-            <>
-              <MatchResultCard
-                score={winner.score}
-                isWinner={true}
-                user={winner.profile}
-              />
-              <MatchResultCard
-                score={loser.score}
-                isWinner={false}
-                user={loser.profile}
-              />
-            </>
-          ) : (
-            <>
-              {previous.winner === undefined ? (
-                <p>결과 없음</p>
-              ) : (
-                <>
-                  <MatchResultCard
-                    score={previous.winner.score}
-                    isWinner={true}
-                    user={previous.winner.profile}
-                  />
-                  <MatchResultCard
-                    score={previous.loser.score}
-                    isWinner={false}
-                    user={previous.loser.profile}
-                  />
-                </>
-              )}
-            </>
-          )}
-        </>
-      )}
     </>
   );
 }
-
-function UserNameInput({ id, onChange }) {
-  return (
-    <input
-      type="text"
-      id={`player${id}`}
-      onChange={(event) => onChange(event.target.value)}
-    />
-  );
-}
-
-UserNameInput.propTypes = {
-  id: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-};

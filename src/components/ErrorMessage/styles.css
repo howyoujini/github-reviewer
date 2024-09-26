@@ -1,0 +1,17 @@
+.error-ui {
+  margin: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error-ui > svg {
+  fill: rgb(248, 5, 5);
+  width: 36px;
+}
+
+.error-message {
+  margin: 15px;
+  font-size: 18px;
+  color: rgb(239, 31, 31);
+}

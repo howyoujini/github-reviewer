@@ -1,0 +1,32 @@
+.ui-battle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.match-button {
+  all: unset;
+  color: #282828;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  padding: 15px 24px;
+  transition: 0.5s all ease;
+  border: 3px solid #282828;
+  border-radius: 40px;
+}
+
+.match-button:hover {
+  color: whitesmoke;
+  background-color: #282828;
+  border-radius: 40px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+}

@@ -1,10 +1,47 @@
 .card {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 10px;
-  width: 250px;
+  width: 300px;
+
   padding: 20px;
-  border: 1px solid #f2f2f2;
-  border-radius: 2px;
+}
+
+.match-icon {
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.match-icon > svg {
+  width: 30px;
+  height: 30px;
+  fill: rgba(65, 161, 74, 0.5);
+}
+
+.match-icon > .winner-icon {
+  fill: rgba(255, 177, 31, 0.8);
+}
+
+.card > a {
+  text-decoration: none;
+  color: #282828;
+}
+
+.card > a:hover {
+  text-decoration: underline;
+  color: #33dd15;
+  transition: all 0.3 ease;
+}
+
+.github-username {
+  font-weight: bold;
+  font-size: 24px;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .link {
@@ -13,9 +50,44 @@
 }
 
 .avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 3px;
-  margin: 30px auto 50px;
-  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+}
+
+.image-cropper {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-bottom: 40px;
+}
+
+.match-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.match-info-wrapper > span {
+  display: flex;
+  align-items: center;
+  color: #777;
+  padding: 12px 8px;
+}
+
+.svg-followers,
+.svg-followings,
+.svg-repo-forked,
+.svg-star,
+.svg-issue-opened {
+  padding-right: 8px;
+}
+
+.svg-followers-count,
+.svg-followings-count,
+.svg-forks-count {
+  font-weight: bold;
 }

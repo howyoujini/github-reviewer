@@ -15,16 +15,16 @@ export default function App() {
   return (
     <BattleProvider>
       <div className="container">
-        <div className="flex space-between">
+        <div className="flex">
           <NavButton
             isActive={!showBattle}
-            text="인기 저장소"
+            text="Trending Repository"
             onClick={() => toggleView(false)}
             testId="btn-popular"
           />
           <NavButton
             isActive={showBattle}
-            text="Github 대결"
+            text="Github Match!"
             onClick={() => toggleView(true)}
             testId="btn-battle"
           />

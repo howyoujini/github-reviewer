@@ -2,9 +2,9 @@ html,
 body,
 #app {
   margin: 0;
-  height: 100%;
   width: 100%;
-  font-family: "Noto Sans KR", sans-serif;
+  height: 100%;
+  font-family: "IBM Plex Mono", monospace;
 }
 
 ul {
@@ -13,6 +13,16 @@ ul {
 
 li {
   list-style-type: none;
+}
+
+#root {
+  height: 100dvh;
+  background: radial-gradient(
+    circle farthest-corner at 50% 15%,
+    #b8ff81,
+    #d8ffbcad,
+    #fffbbc48
+  );
 }
 
 .container {

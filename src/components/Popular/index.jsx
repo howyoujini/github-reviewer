@@ -5,6 +5,7 @@ import SelectLangButton from "../SelectLangButton";
 import TrendingRepositoryCard from "../TrendingRepositoryCard";
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
+import "./styles.css";
 
 export default function Popular() {
   const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[0]);
@@ -30,14 +31,13 @@ export default function Popular() {
 
   return (
     <>
-      <h1 className="center-text">This is Popular!</h1>
       <header>
         <ul data-test="nav-languages">
           {LANGUAGES.map((language) => {
             return (
               <SelectLangButton
                 key={language.en}
-                name={language.ko}
+                name={language.en}
                 selected={language === selectedLanguage}
                 onSelectLanguage={() => setSelectedLanguage(language)}
                 testId={`btn-language-${language.en}`}
@@ -51,7 +51,7 @@ export default function Popular() {
       ) : isLoading ? (
         <Loading />
       ) : (
-        <div>
+        <div className="grid">
           {popularRepositories.map((repository, index) => {
             return (
               <TrendingRepositoryCard
