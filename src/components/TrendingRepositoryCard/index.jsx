@@ -18,11 +18,17 @@ export default function TrendingRepositoryCard({
         <h2>{name}</h2>
       </a>
       <span>{owner}</span>
-      <span>{followersCount}</span>
-      <span data-test={`list-forks-${index}`}>{forksCount}</span>
+      <span>{followersCount.toLocaleString()}</span>
+      <span data-test={`list-forks-${index}`}>
+        {forksCount.toLocaleString()}
+      </span>
       <span>{language}</span>
-      <span data-test={`list-stars-${index}`}>{starCount}</span>
-      <span data-test={`list-issues-${index}`}>{openIssues}</span>
+      <span data-test={`list-stars-${index}`}>
+        {starCount.toLocaleString()}
+      </span>
+      <span data-test={`list-issues-${index}`}>
+        {openIssues.toLocaleString()}
+      </span>
     </div>
   );
 }
