@@ -27,5 +27,8 @@ test("updates content per speed designed", async () => {
   await vi.advanceTimersByTimeAsync(SPEED);
   expect(screen.getByText(TEXT + "...")).toBeInTheDocument();
 
+  await vi.advanceTimersByTimeAsync(SPEED);
+  expect(screen.getByText(TEXT)).toBeInTheDocument();
+
   vi.clearAllTimers();
 });
