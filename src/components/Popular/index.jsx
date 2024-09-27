@@ -17,12 +17,15 @@ export default function Popular() {
     async function fetchRepositories() {
       try {
         setIsLoading(true);
+        setIsError(false);
+
         const items = await getPopularRepos(selectedLanguage.en);
 
         setIsLoading(false);
         setPopularRepositories(items);
         setIsError(false);
       } catch (error) {
+        setIsLoading(false);
         setIsError(true);
       }
     }
@@ -48,7 +51,10 @@ export default function Popular() {
       </header>
       <div className="scrolling">
         {isError ? (
-          <ErrorMessage message="오류 발생" testId="error-message-popular" />
+          <ErrorMessage
+            message="Error Occurred"
+            testId="error-message-popular"
+          />
         ) : isLoading ? (
           <Loading />
         ) : (

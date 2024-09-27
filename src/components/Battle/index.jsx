@@ -15,6 +15,7 @@ export default function Battle() {
   const [loser, setLoser] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [previous, setUpdate] = useBattleState();
 
@@ -22,21 +23,28 @@ export default function Battle() {
     if (user1Name === "" || user2Name === "") {
       setMessage("Please write all github IDs.");
     } else {
-      setMessage("");
-      setIsLoading(true);
+      try {
+        setMessage("");
+        setIsLoading(true);
+        setErrorMessage("");
 
-      const [winner, loser] = await battle([user1Name, user2Name]);
+        const [winner, loser] = await battle([user1Name, user2Name]);
+        setErrorMessage("");
 
-      setUpdate({ winner: winner, loser: loser });
+        setUpdate({ winner: winner, loser: loser });
 
-      setWinner(winner);
-      setLoser(loser);
+        setWinner(winner);
+        setLoser(loser);
 
-      setUser1Name("");
-      setUser2Name("");
+        setUser1Name("");
+        setUser2Name("");
 
-      setIsLoading(false);
-      setIsLoaded(true);
+        setIsLoading(false);
+        setIsLoaded(true);
+      } catch (error) {
+        setErrorMessage(`${error} ${error.message}`);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -52,10 +60,10 @@ export default function Battle() {
             </button>
           </>
         )}
-        {message.length !== 0 && (
-          <ErrorMessage message={message}></ErrorMessage>
-        )}
-        {isLoading ? (
+        {message.length !== 0 && <ErrorMessage message={message} />}
+        {errorMessage.length !== 0 ? (
+          <ErrorMessage message={errorMessage} />
+        ) : isLoading ? (
           <Loading />
         ) : (
           <>

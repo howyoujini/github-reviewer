@@ -2,10 +2,18 @@ import { GITHUB } from "../../env";
 
 const defaultParams = `?client_id=${GITHUB._CLIENT_ID}&client_secret=${GITHUB._SECRET_ID}`;
 
-const getErrorMsg = (message, username) =>
-  message === "Not Found"
-    ? `"${username}"는 존재하지 않는 사용자입니다.`
-    : message;
+const getErrorMsg = (code, message) => {
+  switch (code) {
+    case 403:
+      return `${code} Too much Request!!`;
+    case 404:
+      return `${message} NOT Found!!`;
+    case 500:
+      return `${message} Internal Error :(`;
+    default:
+      return "Error Occurred";
+  }
+};
 
 const makeEndPoint = (url) => window.encodeURI(url);
 
@@ -14,14 +22,10 @@ async function getProfile(username) {
   const response = await fetch(makeEndPoint(url));
 
   if (!response.ok) {
-    throw new Error(response.status);
+    throw new Error(getErrorMsg(response.status, username));
   }
 
   const profile = await response.json();
-
-  if (profile.message) {
-    throw new Error(getErrorMsg(profile.message, username));
-  }
 
   return profile;
 }
@@ -31,14 +35,10 @@ async function getRepos(username) {
   const response = await fetch(makeEndPoint(url));
 
   if (!response.ok) {
-    throw new Error(response.status);
+    throw new Error(getErrorMsg(response.status, username));
   }
 
   const repos = await response.json();
-
-  if (repos.message) {
-    throw new Error(getErrorMsg(repos.message, username));
-  }
 
   return repos;
 }
@@ -74,13 +74,13 @@ export async function battle([player1, player2]) {
 
 export async function getPopularRepos(language) {
   const url = `https://api.github.com/search/repositories${defaultParams}&q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`;
-  const res = await fetch(makeEndPoint(url));
+  const response = await fetch(makeEndPoint(url));
 
-  if (!res.ok) {
-    throw new Error("네트워크 응답이 OK가 아님");
+  if (!response.ok) {
+    throw new Error(getErrorMsg(response.status, language));
   }
 
-  const { items } = await res.json();
+  const { items } = await response.json();
 
   if (items === undefined) {
     throw new Error("JSON 파싱 오류");
