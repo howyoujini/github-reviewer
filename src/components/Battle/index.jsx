@@ -34,6 +34,7 @@ export default function Battle() {
 
       setUser1Name("");
       setUser2Name("");
+
       setIsLoading(false);
       setIsLoaded(true);
     }
