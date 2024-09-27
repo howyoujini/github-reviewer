@@ -1,6 +1,3 @@
-import PROFILE from "./profile.json";
-import PERSONAL_REPOS from "./personalRepositories.json";
-import POPULAR_REPOS from "./popularRepositories.json";
 import { GITHUB } from "../../env";
 
 const defaultParams = `?client_id=${GITHUB._CLIENT_ID}&client_secret=${GITHUB._SECRET_ID}`;

@@ -16,14 +16,15 @@
   height: 30px;
 }
 
-.match-icon > svg {
+.match-icon > img {
   width: 30px;
   height: 30px;
-  fill: rgba(65, 161, 74, 0.5);
+  filter: invert(45%) sepia(10%) saturate(3000%) hue-rotate(75deg)
+    brightness(119%);
 }
 
 .match-icon > .winner-icon {
-  fill: rgba(255, 177, 31, 0.8);
+  filter: invert(80%) sepia(70%) saturate(2000%);
 }
 
 .card > a {
