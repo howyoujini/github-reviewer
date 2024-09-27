@@ -31,6 +31,9 @@ export default function Battle() {
 
       setWinner(winner);
       setLoser(loser);
+
+      setUser1Name("");
+      setUser2Name("");
       setIsLoading(false);
       setIsLoaded(true);
     }
@@ -39,9 +42,7 @@ export default function Battle() {
   return (
     <>
       <div className="ui-battle" data-test="ui-battle">
-        {isLoading ? (
-          <></>
-        ) : (
+        {!isLoading && (
           <>
             <UserNameInput id={1} onChange={setUser1Name} />
             <UserNameInput id={2} onChange={setUser2Name} />
@@ -50,12 +51,9 @@ export default function Battle() {
             </button>
           </>
         )}
-        {message.length === 0 ? (
-          <></>
-        ) : (
+        {message.length !== 0 && (
           <ErrorMessage message={message}></ErrorMessage>
         )}
-
         {isLoading ? (
           <Loading />
         ) : (
@@ -75,9 +73,7 @@ export default function Battle() {
               </div>
             ) : (
               <div className="cards">
-                {previous.winner === undefined ? (
-                  <></>
-                ) : (
+                {previous.winner !== undefined && (
                   <>
                     <MatchResultCard
                       score={previous.winner.score}
