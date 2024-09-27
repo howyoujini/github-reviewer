@@ -46,8 +46,8 @@ export default function MatchResultCard({ score, isWinner, user }) {
       </div>
       <div className="match-info-wrapper">
         <span>{`SCORE |  ${score}`}</span>
-        <span>{`${name}`}</span>
-        <span>{`LOCAL |  ${location}`}</span>
+        <span>{name === " " ? "-" : `${name}`}</span>
+        <span>{location === " " ? "-" : `LOCAL |  ${location}`}</span>
         <span>
           <svg
             aria-hidden="true"

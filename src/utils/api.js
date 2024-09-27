@@ -5,13 +5,10 @@ import { GITHUB } from "../../env";
 
 const defaultParams = `?client_id=${GITHUB._CLIENT_ID}&client_secret=${GITHUB._SECRET_ID}`;
 
-function getErrorMsg(message, username) {
-  if (message === "Not Found") {
-    return `"${username}"는 존재하지 않는 사용자입니다`;
-  }
-
-  return message;
-}
+const getErrorMsg = (message, username) =>
+  message === "Not Found"
+    ? `"${username}"는 존재하지 않는 사용자입니다.`
+    : message;
 
 const makeEndPoint = (url) => window.encodeURI(url);
 
@@ -49,20 +46,17 @@ async function getRepos(username) {
   return repos;
 }
 
-function getStarCount(repos) {
-  return repos.reduce(
-    (count, { stargazers_count }) => count + stargazers_count,
-    0
-  );
-}
+const getStarCount = (repos) =>
+  repos.reduce((count, { stargazers_count }) => count + stargazers_count, 0);
 
-function calculateScore(followers, repos) {
-  return followers * 3 + getStarCount(repos);
-}
+const calculateScore = (followers, repos) =>
+  followers * 3 + getStarCount(repos);
 
 async function getUserData(player) {
-  const profile = await getProfile(player);
-  const repos = await getRepos(player);
+  const [profile, repos] = await Promise.all([
+    getProfile(player),
+    getRepos(player),
+  ]);
 
   return {
     profile,
@@ -70,13 +64,13 @@ async function getUserData(player) {
   };
 }
 
-function sortPlayers(players) {
-  return players.sort((a, b) => b.score - a.score);
-}
+const sortPlayers = (players) => players.sort((a, b) => b.score - a.score);
 
 export async function battle([player1, player2]) {
-  const playerOne = await getUserData(player1);
-  const playerTwo = await getUserData(player2);
+  const [playerOne, playerTwo] = await Promise.all([
+    getUserData(player1),
+    getUserData(player2),
+  ]);
 
   return sortPlayers([playerOne, playerTwo]);
 }
