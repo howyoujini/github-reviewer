@@ -32,7 +32,7 @@ export default function Popular() {
   return (
     <>
       <header>
-        <ul data-test="nav-languages">
+        <div data-test="nav-languages">
           {LANGUAGES.map((language) => {
             return (
               <SelectLangButton
@@ -44,25 +44,27 @@ export default function Popular() {
               />
             );
           })}
-        </ul>
-      </header>
-      {isError ? (
-        <ErrorMessage message="오류 발생" testId="error-message-popular" />
-      ) : isLoading ? (
-        <Loading />
-      ) : (
-        <div className="grid">
-          {popularRepositories.map((repository, index) => {
-            return (
-              <TrendingRepositoryCard
-                key={repository.gitUrl}
-                index={index}
-                {...repository}
-              />
-            );
-          })}
         </div>
-      )}
+      </header>
+      <div className="scrolling">
+        {isError ? (
+          <ErrorMessage message="오류 발생" testId="error-message-popular" />
+        ) : isLoading ? (
+          <Loading />
+        ) : (
+          <div className="grid">
+            {popularRepositories.map((repository, index) => {
+              return (
+                <TrendingRepositoryCard
+                  key={repository.gitUrl}
+                  index={index}
+                  {...repository}
+                />
+              );
+            })}
+          </div>
+        )}
+      </div>
     </>
   );
 }

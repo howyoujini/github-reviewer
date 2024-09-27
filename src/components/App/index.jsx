@@ -15,7 +15,7 @@ export default function App() {
   return (
     <BattleProvider>
       <div className="container">
-        <div className="flex">
+        <div className="flex nav-buttons">
           <NavButton
             isActive={!showBattle}
             text="Trending Repository"
