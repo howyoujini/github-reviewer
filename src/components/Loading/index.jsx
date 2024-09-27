@@ -14,9 +14,14 @@ export default function Loading({ speed, text }) {
   }, [content, speed, text]);
 
   return (
-    <p className="content" data-test="ui-loading">
-      {content}
-    </p>
+    <span className="content" data-test="ui-loading">
+      <img
+        src="https://github.githubassets.com/assets/mona-loading-default-c3c7aad1282f.gif"
+        alt="Loading your activity..."
+        className="loading-motion"
+      />
+      <p className="loading-text">{content}</p>
+    </span>
   );
 }
 

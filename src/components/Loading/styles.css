@@ -1,8 +1,21 @@
 .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
   font-size: 35px;
   position: absolute;
   left: 0;
   right: 0;
   margin-top: 20px;
   text-align: center;
+}
+
+.loading-motion {
+  width: 60px;
+}
+
+.loading-text {
+  margin: 15px;
 }
