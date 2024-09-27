@@ -20,7 +20,6 @@ export default function MatchResultCard({ score, isWinner, user }) {
             alt="winner"
           />
         ) : (
-          // 패배
           <img src="/src/assets/loser-icon.svg" alt="loser" />
         )}
       </p>
