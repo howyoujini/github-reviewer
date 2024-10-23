@@ -221,3 +221,6 @@ npm run cypress # 혹은 npm run cypress:open
   - 참고: [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
 <br>
+
+---
+![screencapture-github-vanillacoding-frontend-bootcamp02-w06-pull-3-2024-10-23-21_49_39](https://github.com/user-attachments/assets/9c4acf47-f337-4608-9a89-73a5a35a35b6)
